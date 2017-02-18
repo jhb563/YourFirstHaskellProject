@@ -1,0 +1,33 @@
+name:
+  tic-tac-toe
+
+version:
+  0.1.0.0
+
+ghc-options:
+  -Wall
+
+dependencies:
+  - base
+
+library:
+  source-dirs:
+    - src/
+  exposed-modules:
+    - Lib
+
+executables:
+  run-tic-tac-toe:
+    main: Main.hs
+    source-dirs:
+      - app/
+    dependencies:
+      - tic-tac-toe
+
+tests:
+  tic-tac-toe-tests:
+    main: Spec.hs
+    source-dirs:
+      - test/
+    dependencies:
+      - tic-tac-toe
