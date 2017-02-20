@@ -5,7 +5,7 @@ version:
   0.1.0.0
 
 ghc-options:
-  -Wall
+  -Wall -Werror
 
 dependencies:
   - base
@@ -15,10 +15,19 @@ library:
     - src/
   exposed-modules:
     - Lib
+    - Split.LibSplit
+  dependencies:
+    - split
 
 executables:
   run-tic-tac-toe:
     main: Main.hs
+    source-dirs:
+      - app/
+    dependencies:
+      - tic-tac-toe
+  new-exec:
+    main: NewExec.hs
     source-dirs:
       - app/
     dependencies:
@@ -30,4 +39,11 @@ tests:
     source-dirs:
       - test/
     dependencies:
+      - tic-tac-toe
+  new-test:
+    main: NewTest.hs
+    source-dirs:
+      - test/
+    dependencies:
+      - tasty-hunit
       - tic-tac-toe
