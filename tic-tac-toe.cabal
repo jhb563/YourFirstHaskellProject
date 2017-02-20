@@ -14,25 +14,8 @@ library
   ghc-options: -Wall -Werror
   build-depends:
       base
-    , split
   exposed-modules:
-      Lib
-      Split.LibSplit
-  other-modules:
-      Nested.DeepLib
-      Paths_tic_tac_toe
-  default-language: Haskell2010
-
-executable new-exec
-  main-is: NewExec.hs
-  hs-source-dirs:
-      app/
-  ghc-options: -Wall -Werror
-  build-depends:
-      base
-    , tic-tac-toe
-  other-modules:
-      Main
+      Types
   default-language: Haskell2010
 
 executable run-tic-tac-toe
@@ -43,33 +26,4 @@ executable run-tic-tac-toe
   build-depends:
       base
     , tic-tac-toe
-  other-modules:
-      NewExec
-  default-language: Haskell2010
-
-test-suite new-test
-  type: exitcode-stdio-1.0
-  main-is: NewTest.hs
-  hs-source-dirs:
-      test/
-  ghc-options: -Wall -Werror
-  build-depends:
-      base
-    , tasty-hunit
-    , tic-tac-toe
-  other-modules:
-      Spec
-  default-language: Haskell2010
-
-test-suite tic-tac-toe-tests
-  type: exitcode-stdio-1.0
-  main-is: Spec.hs
-  hs-source-dirs:
-      test/
-  ghc-options: -Wall -Werror
-  build-depends:
-      base
-    , tic-tac-toe
-  other-modules:
-      NewTest
   default-language: Haskell2010

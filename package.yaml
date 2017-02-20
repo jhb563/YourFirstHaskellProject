@@ -13,11 +13,7 @@ dependencies:
 library:
   source-dirs:
     - src/
-  exposed-modules:
-    - Lib
-    - Split.LibSplit
   dependencies:
-    - split
 
 executables:
   run-tic-tac-toe:
@@ -25,25 +21,4 @@ executables:
     source-dirs:
       - app/
     dependencies:
-      - tic-tac-toe
-  new-exec:
-    main: NewExec.hs
-    source-dirs:
-      - app/
-    dependencies:
-      - tic-tac-toe
-
-tests:
-  tic-tac-toe-tests:
-    main: Spec.hs
-    source-dirs:
-      - test/
-    dependencies:
-      - tic-tac-toe
-  new-test:
-    main: NewTest.hs
-    source-dirs:
-      - test/
-    dependencies:
-      - tasty-hunit
       - tic-tac-toe
