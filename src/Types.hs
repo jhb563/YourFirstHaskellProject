@@ -1,6 +1,8 @@
 module Types where
 
 import Data.Array
+import Data.Function
+import Data.List
 
 data Player =
   FirstPlayer |
@@ -35,7 +37,18 @@ newtype Board = Board { boardArray :: (Array (Int, Int) BoardCell) }
   deriving (Eq)
 
 instance Show Board where
-  show _ = undefined
+  show (Board b) = intercalate interRowString allRowStrings
+    where
+      rowNumFromAssoc = fst . fst
+      compareRowNum = (==) `on` rowNumFromAssoc
+      groupedAssocs = groupBy compareRowNum (assocs b)
+      discardIndex = map snd
+      rows = map discardIndex groupedAssocs
+      rowLength = length $ head rows
+      rowString row = intercalate "|" (map show row) ++ "\n"
+      allRowStrings = map rowString rows
+      dashList = replicate rowLength " - "
+      interRowString = intercalate " " dashList ++ "\n"
 
 data InputError =
   OutOfBoundsError |
