@@ -37,6 +37,15 @@ newtype Board = Board { boardArray :: (Array (Int, Int) BoardCell) }
 instance Show Board where
   show _ = undefined
 
+data InputError =
+  OutOfBoundsError |
+  CellIsOccupiedError
+  deriving (Eq)
+
+instance Show InputError where
+  show OutOfBoundsError = "Sorry, that move is out of bounds!"
+  show CellIsOccupiedError = "Sorry, that cell is already occupied!"
+
 data GameResult =
   FirstPlayerWin |
   SecondPlayerWin |
@@ -50,8 +59,6 @@ instance Show GameResult where
 
 data Game = Game
   { gameBoard :: Board
-  , boardHeight :: Int
-  , boardWidth :: Int
   , movesPlayed :: Int
   , currentPlayer :: Player
   , player1Type :: PlayerType
