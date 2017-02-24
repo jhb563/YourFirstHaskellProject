@@ -1,4 +1,12 @@
 module Main where
 
+import Input
+
 main :: IO ()
-main = print "Hello World!"
+main = do
+  pType <- getPlayer
+  print pType
+  dimens <- getDimensions
+  print dimens
+  move <- getMove
+  print move

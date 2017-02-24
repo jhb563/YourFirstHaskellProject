@@ -15,6 +15,7 @@ library:
     - src/
   dependencies:
     - array
+    - MissingH
 
 executables:
   run-tic-tac-toe:
