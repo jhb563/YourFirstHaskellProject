@@ -1,7 +1,13 @@
-module GameLogic where
+module GameLogic 
+  ( pickComputerMove
+  , playHumanMove
+  , evaluateMove )
+  where
 
 import Control.Monad.State
 import Data.Array
+import Data.Function
+import Data.List
 import System.Random
 import Text.Read hiding (lift, get)
 
@@ -58,3 +64,56 @@ playComputerMove = do
     Right newBoard -> do
       put (currentGame { gameBoard = newBoard })
       return finalChoice
+
+evaluateMove :: 
+  (Int, Int) -> -- The Move
+  BoardCell -> -- The type for the next move.
+  Board -> -- The current board
+  Int -> -- The total number of moves in the game.
+  (Either InputError Board, Maybe GameResult) -- New Board or Error, and Result
+evaluateMove move cell board totalMoves = case updateBoardAtIndex move cell board of
+  Left err -> (Left err, Nothing)
+  Right newBoard -> (Right newBoard, result)
+    where
+      winResult = if cell == FirstPlayerCell then FirstPlayerWin else SecondPlayerWin
+      (_, (rows, cols)) = bounds $ boardArray newBoard
+      threshold = min rows cols
+      verticalWin = verticalContinuityForMove move cell newBoard >= threshold
+      horizontalWin = horizontalContinuityForMove move cell newBoard >= threshold
+      diagonalULWin = diagonalContinuityForMoveUL move cell newBoard >= threshold
+      diagonalLRWin = diagonalContinuityForMoveLR move cell newBoard >= threshold
+      result = if verticalWin || horizontalWin || diagonalULWin || diagonalLRWin
+        then Just winResult
+        else if totalMoves == rows * cols
+          then Just Draw
+          else Nothing
+
+verticalContinuityForMove :: (Int, Int) -> BoardCell -> Board -> Int
+verticalContinuityForMove (_, col) = continuityHelper columnFilter
+  where
+    columnFilter = \((_, c), _) -> c == col
+
+horizontalContinuityForMove :: (Int, Int) -> BoardCell -> Board -> Int
+horizontalContinuityForMove (row, _) = continuityHelper rowFilter
+  where
+    rowFilter = \((r, _), _) -> r == row
+
+diagonalContinuityForMoveUL :: (Int, Int) -> BoardCell -> Board -> Int
+diagonalContinuityForMoveUL (row, col) = continuityHelper diagonalULFilter
+  where
+    diagonalULFilter = \((a,b), _) -> a - b == row - col
+
+diagonalContinuityForMoveLR :: (Int, Int) -> BoardCell -> Board -> Int
+diagonalContinuityForMoveLR (row, col) = continuityHelper diagonalLRFilter
+  where
+    diagonalLRFilter = \((a,b), _) -> a + b == row + col
+
+continuityHelper :: (((Int, Int), BoardCell) -> Bool) -> BoardCell -> Board -> Int
+continuityHelper filterFunc cell (Board arr) = foldl foldMax 0 groupings
+  where
+    cellsInRange = filter filterFunc (assocs arr)
+    groupings = groupBy ((==) `on` snd) cellsInRange
+    foldMax currentMax [] = currentMax
+    foldMax currentMax l@((_, cellType) : _) = if cellType == cell
+      then max currentMax (length l)
+      else currentMax
