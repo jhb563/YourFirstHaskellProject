@@ -67,24 +67,24 @@ playComputerMove = do
 
 evaluateMove :: 
   (Int, Int) -> -- The Move
-  BoardCell -> -- The type for the next move.
   Board -> -- The current board
-  Int -> -- The total number of moves in the game.
-  (Either InputError Board, Maybe GameResult) -- New Board or Error, and Result
-evaluateMove move cell board totalMoves = case updateBoardAtIndex move cell board of
-  Left err -> (Left err, Nothing)
-  Right newBoard -> (Right newBoard, result)
+  Maybe GameResult -- New Board or Error, and Result
+evaluateMove move board = case elementAtIndex move board of
+  Nothing -> Nothing
+  Just BlankCell -> Nothing
+  Just cell -> result
     where
       winResult = if cell == FirstPlayerCell then FirstPlayerWin else SecondPlayerWin
-      (_, (rows, cols)) = bounds $ boardArray newBoard
+      (_, (rows, cols)) = bounds $ boardArray board
       threshold = min rows cols
-      verticalWin = verticalContinuityForMove move cell newBoard >= threshold
-      horizontalWin = horizontalContinuityForMove move cell newBoard >= threshold
-      diagonalULWin = diagonalContinuityForMoveUL move cell newBoard >= threshold
-      diagonalLRWin = diagonalContinuityForMoveLR move cell newBoard >= threshold
+      verticalWin = verticalContinuityForMove move cell board >= threshold
+      horizontalWin = horizontalContinuityForMove move cell board >= threshold
+      diagonalULWin = diagonalContinuityForMoveUL move cell board >= threshold
+      diagonalLRWin = diagonalContinuityForMoveLR move cell board >= threshold
+      boardFull = length (filter (== BlankCell) (elems (boardArray board))) == 0
       result = if verticalWin || horizontalWin || diagonalULWin || diagonalLRWin
         then Just winResult
-        else if totalMoves == rows * cols
+        else if boardFull
           then Just Draw
           else Nothing
 
