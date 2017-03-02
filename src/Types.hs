@@ -59,7 +59,6 @@ instance Show GameResult where
 
 data Game = Game
   { gameBoard :: Board
-  , movesPlayed :: Int
   , currentPlayer :: Player
   , player1Type :: PlayerType
   , player2Type :: PlayerType
