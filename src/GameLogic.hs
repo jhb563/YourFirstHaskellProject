@@ -1,7 +1,7 @@
 module GameLogic 
-  ( pickComputerMove
-  , playHumanMove
-  , evaluateMove )
+  ( evaluateMove
+  ( playComputerMove
+  , playHumanMove )
   where
 
 import Control.Monad.State
