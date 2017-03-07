@@ -8,5 +8,3 @@ main = do
   print pType
   dimens <- getDimensions
   print dimens
-  move <- getMove
-  print move

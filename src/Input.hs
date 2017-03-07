@@ -39,19 +39,3 @@ getDimensions = do
     printFailure = do
       putStrLn "Please enter a whole number bigger than 2."
       processIntInput
-
-getMove :: IO (Int, Int)
-getMove = do
-  putStrLn "Please enter a move (ex. \"1 1\")."
-  processMoveInput
-  where
-    processMoveInput = do
-      input <- getLine
-      case words input of
-        [row, col] -> case (readMaybe row, readMaybe col) of
-          (Just r, Just c) -> return (r,c)
-          _ -> printFailure
-        _ -> printFailure
-    printFailure = do
-      putStrLn "Please enter two numbers separated by a space."
-      processMoveInput
