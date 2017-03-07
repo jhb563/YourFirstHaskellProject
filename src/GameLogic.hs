@@ -1,6 +1,7 @@
 module GameLogic 
   ( evaluateMove
-  ( playComputerMove
+  , initializeGame
+  , playComputerMove
   , playHumanMove )
   where
 
@@ -64,6 +65,14 @@ playComputerMove = do
     Right newBoard -> do
       put (currentGame { gameBoard = newBoard })
       return finalChoice
+
+initializeGame :: (Int, Int) -> PlayerType -> Game
+initializeGame (rows, cols) p2Type = Game
+  { gameBoard = initializeBoard rows cols
+  , currentPlayer = FirstPlayer
+  , player1Type = HumanPlayer
+  , player2Type = p2Type
+  , gameResult = Nothing }
 
 evaluateMove :: 
   (Int, Int) -> -- The Move
