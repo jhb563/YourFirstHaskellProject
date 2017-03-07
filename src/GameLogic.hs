@@ -1,6 +1,5 @@
 module GameLogic 
-  ( initializeGame
-  , playGame )
+  ( runGame )
   where
 
 import Control.Monad.State
@@ -12,6 +11,11 @@ import Text.Read hiding (lift, get)
 
 import Board
 import Types
+
+runGame :: (Int, Int) -> PlayerType -> IO GameResult
+runGame dimens p2Type = evalStateT playGame initialGame
+  where
+    initialGame = initializeGame dimens p2Type 
 
 playGame :: StateT Game IO GameResult
 playGame = do

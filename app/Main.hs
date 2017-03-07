@@ -1,10 +1,11 @@
 module Main where
 
+import GameLogic
 import Input
 
 main :: IO ()
 main = do
   pType <- getPlayer
-  print pType
   dimens <- getDimensions
-  print dimens
+  res <- runGame dimens pType
+  print res
