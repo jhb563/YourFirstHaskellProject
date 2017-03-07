@@ -1,8 +1,7 @@
 module GameLogic 
   ( evaluateMove
   , initializeGame
-  , playComputerMove
-  , playHumanMove
+  , playMove
   , setNextPlayer )
   where
 
@@ -15,6 +14,16 @@ import Text.Read hiding (lift, get)
 
 import Board
 import Types
+
+playMove :: StateT Game IO (Int, Int)
+playMove = do
+  currentP <- gets currentPlayer
+  pType <- case currentP of
+    FirstPlayer -> gets player1Type
+    SecondPlayer -> gets player2Type
+  case pType of
+    HumanPlayer -> playHumanMove
+    ComputerPlayer -> playComputerMove
 
 setNextPlayer :: StateT Game IO ()
 setNextPlayer = do
