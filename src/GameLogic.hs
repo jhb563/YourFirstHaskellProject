@@ -22,7 +22,8 @@ playGame = do
   game <- get
   lift $ print game
   move <- playMove 
-  case evaluateMove move (gameBoard game) of
+  newBoard <- gets gameBoard
+  case evaluateMove move newBoard of
     Nothing -> do
       setNextPlayer
       playGame
