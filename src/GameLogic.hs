@@ -1,8 +1,6 @@
 module GameLogic 
-  ( evaluateMove
-  , initializeGame
-  , playMove
-  , setNextPlayer )
+  ( initializeGame
+  , playGame )
   where
 
 import Control.Monad.State
@@ -14,6 +12,17 @@ import Text.Read hiding (lift, get)
 
 import Board
 import Types
+
+playGame :: StateT Game IO GameResult
+playGame = do
+  game <- get
+  lift $ print game
+  move <- playMove 
+  case evaluateMove move (gameBoard game) of
+    Nothing -> do
+      setNextPlayer
+      playGame
+    Just res -> return res
 
 playMove :: StateT Game IO (Int, Int)
 playMove = do
