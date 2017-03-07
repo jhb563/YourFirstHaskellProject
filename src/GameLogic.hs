@@ -2,7 +2,8 @@ module GameLogic
   ( evaluateMove
   , initializeGame
   , playComputerMove
-  , playHumanMove )
+  , playHumanMove
+  , setNextPlayer )
   where
 
 import Control.Monad.State
@@ -14,6 +15,17 @@ import Text.Read hiding (lift, get)
 
 import Board
 import Types
+
+setNextPlayer :: StateT Game IO ()
+setNextPlayer = do
+  game <- get
+  let currentP = currentPlayer game
+  let nextP = nextPlayer currentP
+  put $ game { currentPlayer = nextP }
+
+nextPlayer :: Player -> Player
+nextPlayer FirstPlayer = SecondPlayer
+nextPlayer SecondPlayer = FirstPlayer
 
 -- State functions for playing the current move
 
