@@ -17,6 +17,7 @@ library
     , array
     , MissingH
     , mtl
+    , random
   exposed-modules:
       Board
       GameLogic

@@ -17,6 +17,7 @@ library:
     - array
     - MissingH
     - mtl
+    - random
 
 executables:
   run-tic-tac-toe:
