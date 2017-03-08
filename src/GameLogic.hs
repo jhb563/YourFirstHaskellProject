@@ -8,6 +8,8 @@ import Text.Read hiding (lift, get)
 import Board
 import Types
 
+-- State functions for playing the current move
+
 currentCell :: StateT Game IO BoardCell
 currentCell = do
   player <- gets currentPlayer
@@ -45,7 +47,7 @@ playComputerMove = do
   currentGame <- get
   let board@(Board arr) = gameBoard currentGame
   cell <- currentCell
-  let choices = [i | i <- indices arr, arr ! i /= BlankCell]
+  let choices = [i | i <- indices arr, arr ! i == BlankCell]
   indexOfChoice <- lift $ getStdRandom (randomR (0, (length choices) - 1))
   let finalChoice = choices !! indexOfChoice
   case updateBoardAtIndex finalChoice cell board of
