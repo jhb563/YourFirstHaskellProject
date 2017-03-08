@@ -29,7 +29,7 @@ playGame = do
       playGame
     Just res -> do
       finalGame <- get
-      lift $ print finalGame
+      lift $ print (gameBoard finalGame)
       return res
 
 playMove :: StateT Game IO (Int, Int)
