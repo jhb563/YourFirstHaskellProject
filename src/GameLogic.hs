@@ -12,6 +12,8 @@ import Text.Read hiding (lift, get)
 import Board
 import Types
 
+-- Main Game Running Logic
+
 runGame :: (Int, Int) -> PlayerType -> IO GameResult
 runGame dimens p2Type = evalStateT playGame initialGame
   where
