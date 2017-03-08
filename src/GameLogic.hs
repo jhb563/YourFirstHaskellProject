@@ -73,8 +73,7 @@ initializeGame (rows, cols) p2Type = Game
   { gameBoard = initializeBoard rows cols
   , currentPlayer = FirstPlayer
   , player1Type = HumanPlayer
-  , player2Type = p2Type
-  , gameResult = Nothing }
+  , player2Type = p2Type }
 
 evaluateMove :: 
   (Int, Int) -> -- The Move
