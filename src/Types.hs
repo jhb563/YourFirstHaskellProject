@@ -61,18 +61,15 @@ data Game = Game
   { gameBoard :: Board
   , currentPlayer :: Player
   , player1Type :: PlayerType
-  , player2Type :: PlayerType
-  , gameResult :: Maybe GameResult }
+  , player2Type :: PlayerType }
   deriving (Eq)
 
 instance Show Game where
   show game = unlines $
     [ show (gameBoard game)
-    , show resultOrCurrentPlayer ]
+    , show currentP ]
     where
-      resultOrCurrentPlayer = case gameResult game of
-        Just result -> show result
-        Nothing -> show (currentPlayer game) ++ show currentPlayerMode
+      currentP = show (currentPlayer game) ++ " " ++ show currentPlayerMode
       currentPlayerMode = if currentPlayer game == FirstPlayer
         then player1Type game
         else player2Type game
