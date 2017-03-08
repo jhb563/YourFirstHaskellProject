@@ -27,7 +27,10 @@ playGame = do
     Nothing -> do
       setNextPlayer
       playGame
-    Just res -> return res
+    Just res -> do
+      finalGame <- get
+      lift $ print finalGame
+      return res
 
 playMove :: StateT Game IO (Int, Int)
 playMove = do
