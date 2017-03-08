@@ -66,6 +66,8 @@ playComputerMove = do
       put (currentGame { gameBoard = newBoard })
       return finalChoice
 
+-- Initialization and Evaluation Logic
+
 initializeGame :: (Int, Int) -> PlayerType -> Game
 initializeGame (rows, cols) p2Type = Game
   { gameBoard = initializeBoard rows cols
